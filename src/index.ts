@@ -1,12 +1,16 @@
 import { WorldMap } from './worldmap';
+import {Renderer} from './renderer';
 
 (function(window) {
     
     const worldmap = new WorldMap([
-        [1, 1, 1],
-        [1, 0, 1],
-        [1, 1, 1]
+        [1, 1, 1, 1],
+        [1, 0, 1, 1],
+        [1, 1, 1, 0]
     ]);
+
+    const renderer = new Renderer();
+    renderer.renderWorld(worldmap, 0, 0);
 
     let output = "";
     for (let y = 0; y < worldmap.getHeight(); y++) {
@@ -30,4 +34,5 @@ import { WorldMap } from './worldmap';
     }
 
     window.requestAnimationFrame(gameLoop);
+
 })(window);
