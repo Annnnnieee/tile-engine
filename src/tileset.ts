@@ -6,7 +6,7 @@ const tileset: { [key: number]: Tile } = {
         color: "blue"
     },
     1: {
-        description: "water",
+        description: "grass",
         color: "green"
     }
 };

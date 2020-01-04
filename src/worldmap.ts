@@ -1,7 +1,7 @@
 import { Tile } from "./tile";
 import tileset from './tileset';
 
-export class Map {
+export class WorldMap {
     private tiles: number[][];
 
     constructor(tiles: number[][]) {
