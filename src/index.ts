@@ -1,6 +1,6 @@
 import { WorldMap } from './worldmap';
 
-(function() {
+(function(window) {
     
     const worldmap = new WorldMap([
         [1, 1, 1],
@@ -18,4 +18,16 @@ import { WorldMap } from './worldmap';
         output += row.join(", ") + "\n";
     }
     console.log(output)
-})();
+
+    let previousTimestamp: DOMHighResTimeStamp;
+    function gameLoop(timestamp: DOMHighResTimeStamp) {
+        const elapsedMs = timestamp - (previousTimestamp || 0);
+        previousTimestamp = timestamp;
+
+        console.log(elapsedMs);
+
+        window.requestAnimationFrame(gameLoop);
+    }
+
+    window.requestAnimationFrame(gameLoop);
+})(window);
