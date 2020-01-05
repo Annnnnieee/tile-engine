@@ -6,7 +6,7 @@ import LoopStrategy from './loopstrategy';
 export default class Core {
 
     private loopStrategy: LoopStrategy;
-    private renderer: RenderStrategy;
+    private renderStrategy: RenderStrategy;
     private map: WorldMap | undefined;
     private player: PlayerData;
     
@@ -19,7 +19,7 @@ export default class Core {
             },
             color: "red"
         };
-        this.renderer = renderStrategy;
+        this.renderStrategy = renderStrategy;
     }
     
     public setLoopStrategy(loopStrategy: LoopStrategy) {
@@ -39,6 +39,6 @@ export default class Core {
     }
     
     public tick(elapsedMs: number): void {
-        this.renderer.renderWorld(this.map!, 0, 0);
+        this.renderStrategy.renderWorld(this.map!, 0, 0);
     }
 }

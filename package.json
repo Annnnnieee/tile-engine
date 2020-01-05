@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "webpack-dev-server --inline --progress --profile --colors --watch --mode development",
+    "start": "webpack-dev-server --open --inline --progress --profile --colors --watch --mode development",
     "build": "webpack --config webpack.config.js --mode production"
   },
   "author": "",
