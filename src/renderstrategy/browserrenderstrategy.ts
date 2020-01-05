@@ -1,14 +1,15 @@
-import { WorldMap } from "./worldmap";
+import { WorldMap } from "../worldmap";
+import RenderStrategy from './';
 
-export class Renderer {
+export default class BrowserRenderStrategy implements RenderStrategy {
 
     private tileWidth = 60;
     private tileHeight = 60;
 
     private canvas: HTMLCanvasElement;
 
-    constructor(canvas: HTMLCanvasElement) {
-        this.canvas = canvas;
+    constructor(window: Window) {
+        this.canvas = <HTMLCanvasElement> window.document.getElementById("canvas");
     }
 
     renderWorld(worldMap: WorldMap, startIndex: number, offset: number){

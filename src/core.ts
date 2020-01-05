@@ -1,16 +1,17 @@
 import { WorldMap } from './worldmap';
-import { Renderer } from './renderer';
 import { PlayerData } from './playerdata';
+import RenderStrategy from './renderstrategy';
+import LoopStrategy from './loopstrategy';
 
 export default class Core {
 
-    private requestAnimationFrame: Function;
-    private renderer: Renderer;
+    private loopStrategy: LoopStrategy;
+    private renderer: RenderStrategy;
     private map: WorldMap | undefined;
     private player: PlayerData;
     
-    constructor(requestAnimationFrame: Function, canvas: HTMLCanvasElement) {
-        this.requestAnimationFrame = requestAnimationFrame;
+    constructor(loopStrategy: LoopStrategy, renderStrategy: RenderStrategy) {
+        this.loopStrategy = loopStrategy;
         this.player = {
             position: {
                 x: 10,
@@ -18,9 +19,13 @@ export default class Core {
             },
             color: "red"
         };
-        this.renderer = new Renderer(canvas);
+        this.renderer = renderStrategy;
     }
     
+    public setLoopStrategy(loopStrategy: LoopStrategy) {
+        this.loopStrategy = loopStrategy;
+    }
+
     public setMap(map: WorldMap): void {
         this.map = map;
     }
@@ -30,20 +35,10 @@ export default class Core {
             throw new Error("No map set");
         }
 
-        this.requestAnimationFrame(this.mainLoop);
+        this.loopStrategy.run(this);
     }
     
-    private previousTimestamp: number | undefined;
-    private mainLoop(timestamp: number) {
-        const elapsedMs = timestamp - (this.previousTimestamp || 0);
-        this.previousTimestamp = timestamp;
-
-        this.tick(elapsedMs);
-
-        this.requestAnimationFrame(this.mainLoop);
-    }
-
-    private tick(elapsedMs: number): void {
+    public tick(elapsedMs: number): void {
         this.renderer.renderWorld(this.map!, 0, 0);
     }
 }

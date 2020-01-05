@@ -1,6 +1,7 @@
 import { WorldMap } from './worldmap';
-import {Renderer} from './renderer';
 import Core from './core';
+import BrowserLoopStrategy from './loopstrategy/browserloopstrategy';
+import BrowserRenderStrategy from './renderstrategy/browserrenderstrategy';
 
 (function(window) {
     
@@ -10,13 +11,9 @@ import Core from './core';
         [1, 1, 1, 0]
     ]);
 
-    let coreRef: Core; //hacky..
-    const requestAnimationFrame = function(callback: FrameRequestCallback) {
-        return window.requestAnimationFrame.call(window, callback.bind(coreRef));
-    };
-    const canvas = <HTMLCanvasElement> window.document.getElementById("canvas");
-    const core = new Core(requestAnimationFrame, canvas);
-    coreRef = core;
+    const loopStrategy = new BrowserLoopStrategy(window);
+    const renderStrategy = new BrowserRenderStrategy(window);
+    const core = new Core(loopStrategy, renderStrategy);
     
     core.setMap(worldmap);
     core.init();
