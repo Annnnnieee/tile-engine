@@ -5,9 +5,17 @@ export class Renderer {
     private tileWidth = 60;
     private tileHeight = 60;
 
+    private canvas: HTMLCanvasElement;
+
+    constructor(canvas: HTMLCanvasElement) {
+        this.canvas = canvas;
+    }
+
     renderWorld(worldMap: WorldMap, startIndex: number, offset: number){
-        const canvas : any = <HTMLCanvasElement> document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
+        const ctx = this.canvas.getContext("2d");
+        if (!ctx) {
+            throw new Error("Unable to acquire context from canvas");
+        }
 
         ctx.canvas.width = window.innerWidth;
         ctx.canvas.height = window.innerHeight;

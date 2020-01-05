@@ -1,5 +1,6 @@
 import { WorldMap } from './worldmap';
 import {Renderer} from './renderer';
+import Core from './core';
 
 (function(window) {
     
@@ -9,30 +10,14 @@ import {Renderer} from './renderer';
         [1, 1, 1, 0]
     ]);
 
-    const renderer = new Renderer();
-    renderer.renderWorld(worldmap, 0, 0);
-
-    let output = "";
-    for (let y = 0; y < worldmap.getHeight(); y++) {
-        const row = [];
-        for (let x = 0; x < worldmap.getWidth(); x++) {
-            row.push(worldmap.getTile(x, y).description);
-        }
-
-        output += row.join(", ") + "\n";
-    }
-    console.log(output)
-
-    let previousTimestamp: DOMHighResTimeStamp;
-    function gameLoop(timestamp: DOMHighResTimeStamp) {
-        const elapsedMs = timestamp - (previousTimestamp || 0);
-        previousTimestamp = timestamp;
-
-        console.log(elapsedMs);
-
-        window.requestAnimationFrame(gameLoop);
-    }
-
-    window.requestAnimationFrame(gameLoop);
-
+    let coreRef: Core; //hacky..
+    const requestAnimationFrame = function(callback: FrameRequestCallback) {
+        return window.requestAnimationFrame.call(window, callback.bind(coreRef));
+    };
+    const canvas = <HTMLCanvasElement> window.document.getElementById("canvas");
+    const core = new Core(requestAnimationFrame, canvas);
+    coreRef = core;
+    
+    core.setMap(worldmap);
+    core.init();
 })(window);
