@@ -1,14 +1,23 @@
 import { WorldMap } from './worldmap';
 import { Renderer } from './renderer';
+import { PlayerData } from './playerdata';
 
 export default class Core {
 
     private requestAnimationFrame: Function;
     private renderer: Renderer;
     private map: WorldMap | undefined;
+    private player: PlayerData;
     
     constructor(requestAnimationFrame: Function, canvas: HTMLCanvasElement) {
         this.requestAnimationFrame = requestAnimationFrame;
+        this.player = {
+            position: {
+                x: 10,
+                y: 10
+            },
+            color: "red"
+        };
         this.renderer = new Renderer(canvas);
     }
     
@@ -21,7 +30,6 @@ export default class Core {
             throw new Error("No map set");
         }
 
-        console.log(this.requestAnimationFrame);
         this.requestAnimationFrame(this.mainLoop);
     }
     
