@@ -1,17 +1,17 @@
 import { WorldMap } from './worldmap';
 import { PlayerData } from './playerdata';
-import RenderStrategy from './renderstrategy';
-import LoopStrategy from './loopstrategy';
+import Renderer from './renderer';
+import GameLoop from './gameloop';
 
 export default class Core {
 
-    private loopStrategy: LoopStrategy;
-    private renderStrategy: RenderStrategy;
+    private gameLoop: GameLoop;
+    private renderer: Renderer;
     private map: WorldMap | undefined;
     private player: PlayerData;
     
-    constructor(loopStrategy: LoopStrategy, renderStrategy: RenderStrategy) {
-        this.loopStrategy = loopStrategy;
+    constructor(gameLoop: GameLoop, renderer: Renderer) {
+        this.gameLoop = gameLoop;
         this.player = {
             position: {
                 x: 10,
@@ -19,11 +19,11 @@ export default class Core {
             },
             color: "red"
         };
-        this.renderStrategy = renderStrategy;
+        this.renderer = renderer;
     }
     
-    public setLoopStrategy(loopStrategy: LoopStrategy) {
-        this.loopStrategy = loopStrategy;
+    public setGameLoop(loopStrategy: GameLoop) {
+        this.gameLoop = loopStrategy;
     }
 
     public setMap(map: WorldMap): void {
@@ -35,10 +35,10 @@ export default class Core {
             throw new Error("No map set");
         }
 
-        this.loopStrategy.run(this);
+        this.gameLoop.run(this);
     }
     
     public tick(elapsedMs: number): void {
-        this.renderStrategy.renderWorld(this.map!, 0, 0);
+        this.renderer.renderWorld(this.map!, 0, 0);
     }
 }

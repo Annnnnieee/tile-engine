@@ -1,7 +1,7 @@
-import LoopStrategy from ".";
+import GameLoop from ".";
 import Core from "../core";
 
-export default class BrowserLoopStrategy implements LoopStrategy {
+export default class BrowserGameLoop implements GameLoop {
 
     private window: Window;
     private core: Core | undefined;

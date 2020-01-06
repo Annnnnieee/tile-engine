@@ -1,7 +1,7 @@
 import { WorldMap } from "../worldmap";
-import RenderStrategy from './';
+import Renderer from '.';
 
-export default class BrowserRenderStrategy implements RenderStrategy {
+export default class BrowserRenderer implements Renderer {
 
     private tileWidth = 60;
     private tileHeight = 60;

@@ -1,5 +1,5 @@
 import Core from "../core";
 
-export default interface LoopStrategy {
+export default interface GameLoop {
     run(core: Core): void;
 };

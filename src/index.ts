@@ -1,7 +1,7 @@
 import { WorldMap } from './worldmap';
 import Core from './core';
-import BrowserLoopStrategy from './loopstrategy/browserloopstrategy';
-import BrowserRenderStrategy from './renderstrategy/browserrenderstrategy';
+import BrowserGameLoop from './gameloop/browserloopstrategy';
+import BrowserRenderer from './renderer/browserrenderstrategy';
 
 (function(window) {
     
@@ -11,9 +11,9 @@ import BrowserRenderStrategy from './renderstrategy/browserrenderstrategy';
         [1, 1, 1, 0]
     ]);
 
-    const loopStrategy = new BrowserLoopStrategy(window);
-    const renderStrategy = new BrowserRenderStrategy(window);
-    const core = new Core(loopStrategy, renderStrategy);
+    const gameLoop = new BrowserGameLoop(window);
+    const renderer = new BrowserRenderer(window);
+    const core = new Core(gameLoop, renderer);
     
     core.setMap(worldmap);
     core.init();
