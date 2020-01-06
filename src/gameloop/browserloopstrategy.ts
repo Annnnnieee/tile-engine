@@ -10,7 +10,7 @@ export default class BrowserGameLoop implements GameLoop {
         this.window = window;
     }
 
-    run(core: Core): void {
+    init(core: Core): void {
         this.core = core;
         const that = this;
         this.window.requestAnimationFrame(function(timestamp) {
