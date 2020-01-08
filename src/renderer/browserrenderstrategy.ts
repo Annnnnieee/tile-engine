@@ -1,43 +1,61 @@
 import { WorldMap } from "../worldmap";
 import Renderer from '.';
+import ActiveWindow from "../activewindow";
+import PlayerData from "../playerdata";
 
 export default class BrowserRenderer implements Renderer {
-
     private tileWidth = 60;
     private tileHeight = 60;
+    private windowWidth: number;
+    private windowHeight: number;
 
-    private canvas: HTMLCanvasElement;
+    private ctx: any;
 
     constructor(window: Window) {
-        this.canvas = <HTMLCanvasElement> window.document.getElementById("canvas");
+        this.windowWidth = window.innerWidth;
+        this.windowHeight = window.innerHeight;
+
+        const canvas = <HTMLCanvasElement> window.document.getElementById("canvas");
+        this.ctx = canvas.getContext("2d");
+        this.ctx.canvas.width = this.windowWidth;
+        this.ctx.canvas.height = this.windowHeight;
     }
 
-    renderWorld(worldMap: WorldMap, startIndex: number, offset: number){
-        const ctx = this.canvas.getContext("2d");
-        if (!ctx) {
+    renderWorld(worldMap: WorldMap, activeWindow: ActiveWindow){
+        if (!this.ctx) {
             throw new Error("Unable to acquire context from canvas");
         }
 
-        ctx.canvas.width = window.innerWidth;
-        ctx.canvas.height = window.innerHeight;
-        const cols = worldMap.getWidth();
-        const rows = worldMap.getHeight();
+        const startIndex = activeWindow.getStartIndex();
+        const offset = activeWindow.getTileOffset();
+
+        const cols = worldMap.getNumColumns();
+        const rows = worldMap.getNumRows();
 
         for(let r = startIndex; r < rows; r++){
             for(let c = 0; c < cols; c++){
                 const tile = worldMap.getTile(c, r);
                 const x = r * this.tileWidth - offset;
                 const y = c * this.tileHeight;
-                ctx.fillStyle = tile.color;    
-                ctx.fillRect(x, y, this.tileWidth, this.tileHeight);
+                this.ctx.fillStyle = tile.color;    
+                this.ctx.fillRect(x, y, this.tileWidth, this.tileHeight);
             }
         }
 
     }
 
-    // render other stuff
-    updateWorld(){
-
+    renderPlayer(player: PlayerData, activeWindow: ActiveWindow): void {
+        const x = activeWindow.getRelativePosition(player.position.x);
+        const y = player.position.y;
+        this.ctx.fillStyle = player.getColor();
+        this.ctx.fillRect(x, y, this.tileWidth, this.tileHeight);
     }
 
+    getWindowWidth(): number{
+        return this.windowWidth;
+    }
+
+    getTileWidth(): number{
+        return this.tileWidth;
+    }
 }

@@ -8,11 +8,11 @@ export class WorldMap {
         this.tiles = tiles;
     }
 
-    public getWidth(): number {
+    public getNumColumns(): number {
         return this.tiles.length || 0;
     }
 
-    public getHeight(): number {
+    public getNumRows(): number {
         return this.tiles.length > 0 ?
             this.tiles[0].length
             :

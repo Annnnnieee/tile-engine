@@ -16,6 +16,7 @@ export default class BrowserInput implements Input {
     }
 
     private handleKeyPress(e: KeyboardEvent) {
+        e.preventDefault();
         switch(e.key) {
             case "ArrowLeft": this.onLeft(); return;
             case "ArrowRight": this.onRight(); return;

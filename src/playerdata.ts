@@ -7,7 +7,7 @@ export default class PlayerData {
     private color: string;
 
     constructor() {
-        this.speed = 1;
+        this.speed = 3;
         this.position = {
             x: 0,
             y: 0
@@ -28,5 +28,9 @@ export default class PlayerData {
         else if (direction === "down") {
             this.position.y += this.speed;
         }
+    }
+
+    public getColor(){
+        return this.color;
     }
 };
